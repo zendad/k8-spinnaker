@@ -1,4 +1,4 @@
 # Spinnaker on Kubernetes
 
-Deployement  manifests of spinnaker on Kubernetes
+Deployement  manifests  and helm chart of spinnaker on Kubernetes
 

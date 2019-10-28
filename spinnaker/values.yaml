@@ -1,0 +1,114 @@
+halyard:
+  spinnakerVersion: 1.16.1
+  image:
+    repository: gcr.io/spinnaker-marketplace/halyard
+    tag: 1.23.2
+    pullSecrets: []
+  persistence:
+    enabled: true
+  additionalScripts:
+    enabled: false
+    configMapName: my-halyard-config
+    configMapKey: config.sh
+    create: false
+    data: {}
+  additionalSecrets:
+    create: false
+    data: {}
+  additionalConfigMaps:
+    create: false
+    data: {}
+  additionalProfileConfigMaps:
+    data: {}
+  additionalServiceSettings: {}
+  bom: ~
+  serviceConfigs: {}
+  resources: {}
+  customCerts:
+    enabled: false
+    secretName: custom-cacerts
+dockerRegistries:
+- name: dockerhub
+  address: index.docker.io
+  repositories:
+    - library/alpine
+    - library/ubuntu
+    - library/centos
+    - library/nginx
+
+kubeConfig:
+  enabled: false
+  secretName: my-kubeconfig
+  secretKey: config
+  contexts:
+  - default
+  deploymentContext: default
+  omittedNameSpaces:
+  - kube-system
+  - kube-public
+  onlySpinnakerManaged:
+    enabled: false
+
+  checkPermissionsOnStartup: true
+
+ingress:
+  enabled: true
+  host: spinnaker.chart.com
+  annotations:
+    kubernetes.io/ingress.class: nginx
+
+ingressGate:
+  enabled: false
+
+spinnakerFeatureFlags:
+  - artifacts
+  - jobs
+
+nodeSelector: {}
+
+redis:
+  enabled: true
+  external:
+    host: "<EXTERNAL-REDIS-HOST-NAME>"
+    port: 6379
+    # password: ""
+  password: password
+  nodeSelector: {}
+  cluster:
+    enabled: false
+
+minio:
+  enabled: true
+  imageTag: RELEASE.2019-02-13T19-48-27Z
+  serviceType: ClusterIP
+  accessKey: spinnakeradmin
+  secretKey: spinnakeradmin
+  bucket: "spinnaker"
+  nodeSelector: {}
+
+gcs:
+  enabled: false
+  project: my-project-name
+  bucket: "<GCS-BUCKET-NAME>"
+  jsonKey: '<INSERT CLOUD STORAGE JSON HERE>'
+  secretName:
+
+# AWS Simple Storage Service
+s3:
+  enabled: false
+  bucket: "<S3-BUCKET-NAME>"
+  rootFolder: "front50"
+
+azs:
+  enabled: false
+
+rbac:
+  create: false
+
+serviceAccount:
+  create: false
+  halyardName: devops
+  spinnakerName: devops
+securityContext:
+  runAsUser: 1000
+  fsGroup: 1000
